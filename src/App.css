@@ -36,3 +36,14 @@
     transform: rotate(360deg);
   }
 }
+
+.red{
+  color: rgb(255, 0, 0);
+}
+.green{
+  color: rgb(58, 128, 0);
+}
+body{
+  padding: 20px;
+  font-size: 3rem;
+}
