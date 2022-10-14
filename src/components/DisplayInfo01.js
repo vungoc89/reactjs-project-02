@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import './DisplayInfo01.scss';
+import logo from './../logo.svg';
 
 // props se tu dong truyen tu cha xuong con
 class DisplayInfo01 extends Component {
@@ -30,7 +32,8 @@ class DisplayInfo01 extends Component {
          
         //  let nameClass = ''; 
         return (
-            <div>
+            <div className='display__info-container'>
+                <img src={logo} alt='img' ></img>
                 <div>
                     <span onClick={() => {this.handleShowTitle()}}> {this.state.isShowListUser ? "Hide list users:" : "Show list users: "}  </span>
                 </div>
