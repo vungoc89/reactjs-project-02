@@ -1,0 +1,9 @@
+.admin-container{
+    display: flex;
+    .admin-sidebar{
+        .pro-sidebar{
+            // Set for display image
+            height: 100vh !important;
+        }
+    }
+}

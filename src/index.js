@@ -10,6 +10,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import User from './components/User/User';
 import Admin from './components/Admin/Admin';
 import HomePage from './components/Home/HomePage';
+
+// import 'react-pro-sidebar/dist/css/styles.css';
+// import { ProSidebarProvider } from 'react-pro-sidebar';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // Comment React.StrictMode to prevent render twice
@@ -17,11 +20,14 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}>
+      {/* <Route path="/" element={<ProSidebarProvider>
+  <App />
+</ProSidebarProvider>}> */}
 
         <Route index element={<HomePage />} />
         <Route path="users" element={<User />} />
+    </Route>
         <Route path="admin" element={<Admin />} />
-      </Route>
     </Routes>
   </BrowserRouter>,
   // </React.StrictMode>
