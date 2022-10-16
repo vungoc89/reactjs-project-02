@@ -3,20 +3,21 @@ import 'react-pro-sidebar/dist/css/styles.css';
 import { ProSidebar, Menu, MenuItem, SubMenu, SidebarHeader, SidebarContent, SidebarFooter } from 'react-pro-sidebar';
 
 import 'react-icons/fa';
-import {FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart} from 'react-icons/fa';
+// import {FaTachometerAlt, FaGem, FaList, FaGithub, FaRegLaughWink, FaHeart} from 'react-icons/fa';
+import {FaGem} from 'react-icons/fa';
 import sidebarBg from '../../assets/bg2.jpg'; 
 // import sidebarBg from './assets/bg2.jpg'; 
 
 import {DiReact} from 'react-icons/di';
 import { MdDashboard } from "react-icons/md";
-
+import {Link} from "react-router-dom";
 import './SideBar.scss'; 
 
 // import { useIntl } from "react-intl";
 
 
 const SideBar = (props) => {
-    const {image, collapsed, toggled, handleToggleSidebar} = props;
+    const {collapsed, toggled, handleToggleSidebar} = props;
     return (
         <>
             <ProSidebar
@@ -60,6 +61,7 @@ const SideBar = (props) => {
                             suffix={<span className='badge red'>New</span>}
                             >
                             Dashboard
+                            <Link to="/admins"/>
                         </MenuItem>
                         {/* <MenuItem icon={<FaGem/>}>Components</MenuItem> */}
                     </Menu>
@@ -72,9 +74,15 @@ const SideBar = (props) => {
                             icon={<FaGem/>}
                             title='Features'
                         >
-                            <MenuItem>Quản lý User</MenuItem>
-                            <MenuItem>Quản lý Quiz</MenuItem>
-                            <MenuItem>Quản lý Question</MenuItem>
+                            <MenuItem>Quản lý User <Link to="/admins/manage-users"/>
+                            </MenuItem>
+
+                            <MenuItem>Quản lý Quiz <Link to="/admins"/>
+                            </MenuItem>
+
+                            <MenuItem>Quản lý Question <Link to="/admins"/>
+                            </MenuItem>
+
                         </SubMenu>
                     </Menu>
                 </SidebarContent>

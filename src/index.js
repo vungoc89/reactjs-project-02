@@ -10,6 +10,8 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import User from './components/User/User';
 import Admin from './components/Admin/Admin';
 import HomePage from './components/Home/HomePage';
+import ManageUser from './components/Admin/Content/ManageUser';
+import DashBoard from './components/Admin/Content/DashBoard';
 
 // import 'react-pro-sidebar/dist/css/styles.css';
 // import { ProSidebarProvider } from 'react-pro-sidebar';
@@ -20,14 +22,14 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="/" element={<App />}>
-      {/* <Route path="/" element={<ProSidebarProvider>
-  <App />
-</ProSidebarProvider>}> */}
+          <Route index element={<HomePage />} />
+          <Route path="users" element={<User />} />
+      </Route>
 
-        <Route index element={<HomePage />} />
-        <Route path="users" element={<User />} />
-    </Route>
-        <Route path="admin" element={<Admin />} />
+        <Route path="/admins" element={<Admin />}>
+            <Route index element={<DashBoard />} />
+            <Route path='manage-users' element={<ManageUser/>}></Route>
+        </Route>
     </Routes>
   </BrowserRouter>,
   // </React.StrictMode>
