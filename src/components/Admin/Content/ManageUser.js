@@ -9,11 +9,11 @@ const ManageUser = () => {
     const [showModalCreateUser, setShowModalCreateUser] = useState(false);
     return (
 
-        <div classNameName='manage-user-container'>
-            <div classNameName='title'>
+        <div className='manage-user-container'>
+            <div className='title'>
                 Manange user
             </div>
-            <div classNameName='users-content'>
+            <div className='users-content'>
                 <div className='btn-add-new'>
                     <button className='btn btn-primary' onClick={()=> setShowModalCreateUser(true)}>
                         <FcPlus/> Add new users

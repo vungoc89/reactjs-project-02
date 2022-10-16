@@ -1,12 +1,13 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import {useState} from 'react';
+import React, {useState} from 'react';
 // backdrop: use for only click inside area of modal so modal can close
 // Modal must add className because default display on website so modal will putted out of index root
 import {FcPlus} from "react-icons/fc";
 
 import axios from 'axios';
 
+import { ToastContainer, toast } from 'react-toastify';
 const ModalCreateUser = (props) => {
 
 
@@ -35,15 +36,20 @@ const ModalCreateUser = (props) => {
         if(event.target && event.target.files && event.target.files[0]){
             setPreviewImage(URL.createObjectURL(event.target.files[0])); 
             // console.log('upload file: ', event.target.files[0]); 
-            setImage(event.target.value);
+            setImage(event.target.files[0]);
 
         }else{
             setPreviewImage("");
         }
     }
 
+    const validateEmail = (email) => {
+      return email.match(
+        /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+      );
+    };
     const handleSubmitCreateUser = async () => {
-      alert('saved'); 
+      // alert('saved'); 
       // let data = {
       //   email:  email,
       //   password: password,
@@ -52,6 +58,17 @@ const ModalCreateUser = (props) => {
       //   userImage: image, 
       // }
       // console.log(data); 
+      const isValidEmail = validateEmail(email);
+      if(!isValidEmail){
+        toast.error('Invalid email!');
+        // toast.success('Right email!');
+        // toast.info();
+        return;
+      }
+      if(!password){
+        toast.error('Invalid password!');
+        return;
+      }
       const data = new FormData();
       data.append('email', email); 
       data.append('password', password); 
@@ -60,7 +77,14 @@ const ModalCreateUser = (props) => {
       data.append('userImage', image); 
 
       let res = await axios.post('http://localhost:8081/api/v1/participant', data);
-      console.log('>>> check res: ', res); 
+      console.log('>>> check res: ', res.data); 
+      if(res.data && res.data.EC === 0){
+        toast.success(res.data.EM);
+        handleClose(); 
+      }
+      if(res.data && res.data.EC !== 0){
+        toast.error(res.data.EM);
+      }
     }
     return (
       <>
@@ -75,31 +99,34 @@ const ModalCreateUser = (props) => {
           <Modal.Body>
             <form className="row g-3">
                 <div className="col-md-6">
-                    <label for="inputEmail4" className="form-label" value={email}
-                    onChange={(event) => setEmail(event.target.value)}>Email</label>
-                    <input type="email" className="form-control" id="inputEmail4"/>
+                    <label className="form-label" >Email</label>
+                    <input type="email" className="form-control"
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)} />
                 </div>
                 <div className="col-md-6">
-                    <label for="inputPassword4" className="form-label" value={password}
-                    onChange={(event) => setPassword(event.target.value)}>Password</label>
-                    <input type="password" className="form-control" id="inputPassword4"/>
+                    <label  className="form-label" >Password</label>
+                    <input type="password" className="form-control" 
+                    value={password}
+                    onChange={(event) => setPassword(event.target.value)}/>
                 </div>
                 <div className="col-md-6">
-                    <label for="inputCity" className="form-label" value={username}
-                    onChange={(event) => setUsername(event.target.value)}>Username</label>
-                    <input type="text" className="form-control" id="inputCity"/>
+                    <label  className="form-label" >Username</label>
+                    <input type="text" className="form-control" 
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}/>
                 </div>
                 <div className="col-md-4">
-                    <label for="inputState" className="form-label">Role</label>
-                    <select id="inputState" className="form-select" 
-                    onChange={(event) => setRole(event.target.value)}
-                    value={role}>
-                    <option  value="USER" >USER</option>
-                    <option value="ADMIN">ADMIN</option>
+                    <label className="form-label">Role</label>
+                    <select className="form-select" 
+                      onChange={(event) => setRole(event.target.value)}
+                      >
+                      <option value="USER" >USER</option>
+                      <option value="ADMIN">ADMIN</option>
                     </select>
                 </div>
 
-                <div classNameName='col-md-12' >
+                <div className='col-md-12' >
                     <label className='form-label label-upload' htmlFor='labelUpload'>
                         <FcPlus/> Upload file Image
                     </label>

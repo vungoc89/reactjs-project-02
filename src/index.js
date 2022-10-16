@@ -15,6 +15,7 @@ import DashBoard from './components/Admin/Content/DashBoard';
 
 // import 'react-pro-sidebar/dist/css/styles.css';
 // import { ProSidebarProvider } from 'react-pro-sidebar';
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   // Comment React.StrictMode to prevent render twice
