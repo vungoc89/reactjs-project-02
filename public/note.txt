@@ -1,4 +1,6 @@
 cd reactjs-project-02
+npm start
 
+npm install --save-exact
 git push origin product01
 

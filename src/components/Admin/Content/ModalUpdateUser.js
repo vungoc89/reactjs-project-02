@@ -1,6 +1,6 @@
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 // backdrop: use for only click inside area of modal so modal can close
 // Modal must add className because default display on website so modal will putted out of index root
 import {FcPlus} from "react-icons/fc";
@@ -8,13 +8,14 @@ import {FcPlus} from "react-icons/fc";
 // import axios from 'axios';
 
 import {  toast } from 'react-toastify';
-import { postCreateNewUser } from '../../services/apiService';
+import { putUpdateUser } from '../../services/apiService';
 
+import _ from 'lodash';
 
-const ModalCreateUser = (props) => {
+const ModalUpdateUser = (props) => {
 
     // const [show, setShow] = useState(false);
-    const {show, setShow} = props;
+    const {show, setShow, dataUpdate} = props;
 
     const handleClose = () => {
       setShow(false);
@@ -24,6 +25,8 @@ const ModalCreateUser = (props) => {
       setRole("USER");
       setImage("");
       setPreviewImage("");
+      // ModalUpdateUser: Xu ly khi click vao mot item 2 lan(lan 1 thi data hien ra, lan 2 thi data lai ko hien ra)
+      props.resetUpdateData();
     }
     // const handleShow = () => setShow(true);
   
@@ -32,8 +35,20 @@ const ModalCreateUser = (props) => {
     const [username, setUsername] = useState("");
     const [role, setRole]  = useState("USER"); 
     const [image, setImage] = useState("");
-
     const [previewImage, setPreviewImage] = useState(""); 
+
+    // effect here se chay lai moi lan data change
+    useEffect(() => {
+        // console.log('run useEffect: ', dataUpdate);
+        if(!_.isEmpty(dataUpdate)){
+            setEmail(dataUpdate.email);
+            setUsername(dataUpdate.username);
+            setRole(dataUpdate.role);
+            setImage("");
+            setPreviewImage(`data:image/jpeg;base64, ${dataUpdate.image}`);
+        }
+    }, [props.dataUpdate]);
+
     const handleUploadImage = (event) => {
         if(event.target && event.target.files && event.target.files[0]){
             setPreviewImage(URL.createObjectURL(event.target.files[0])); 
@@ -67,10 +82,6 @@ const ModalCreateUser = (props) => {
         // toast.info();
         return;
       }
-      if(!password){
-        toast.error('Invalid password!');
-        return;
-      }
       // const data = new FormData();
       // data.append('email', email); 
       // data.append('password', password); 
@@ -79,7 +90,7 @@ const ModalCreateUser = (props) => {
       // data.append('userImage', image); 
 
       // let res = await axios.post('http://localhost:8081/api/v1/participant', data);
-      let data = await postCreateNewUser(email, password, username, role, image); 
+      let data = await putUpdateUser(dataUpdate.id, username, role, image); 
 
       // console.log('>>> check res: ', res.data); 
       // if(res.data && res.data.EC === 0){
@@ -90,7 +101,7 @@ const ModalCreateUser = (props) => {
       //   toast.error(res.data.EM);
       // }
       // Sau khi co interceptor trong axiosCustomize.js roi thi ko can 'res' nua
-      console.log('>>> check data: ', data); 
+    //   console.log('>>> check data: ', data); 
       if(data && data.EC === 0){
         toast.success(data.EM);
         handleClose(); 
@@ -101,6 +112,8 @@ const ModalCreateUser = (props) => {
         toast.error(data.EM);
       }
     }
+
+    // console.log('check dataupdate: ', props.dataUpdate)
     return (
       <>
         {/* <Button variant="primary" onClick={handleShow}>
@@ -109,7 +122,7 @@ const ModalCreateUser = (props) => {
   
         <Modal show={show} onHide={handleClose} size="xl" backdrop="static" className='modal-add-user'>
           <Modal.Header closeButton>
-            <Modal.Title>Add new user</Modal.Title>
+            <Modal.Title>Update a user</Modal.Title>
           </Modal.Header>
           <Modal.Body>
             <form className="row g-3">
@@ -117,12 +130,14 @@ const ModalCreateUser = (props) => {
                     <label className="form-label" >Email</label>
                     <input type="email" className="form-control"
                     value={email}
+                    disabled={true}
                     onChange={(event) => setEmail(event.target.value)} />
                 </div>
                 <div className="col-md-6">
                     <label  className="form-label" >Password</label>
                     <input type="password" className="form-control" 
                     value={password}
+                    disabled={true}
                     onChange={(event) => setPassword(event.target.value)}/>
                 </div>
                 <div className="col-md-6">
@@ -134,10 +149,13 @@ const ModalCreateUser = (props) => {
                 <div className="col-md-4">
                     <label className="form-label">Role</label>
                     <select className="form-select" 
+                      value={role}
                       onChange={(event) => setRole(event.target.value)}
                       >
                       <option value="USER" >USER</option>
                       <option value="ADMIN">ADMIN</option>
+                      {/* <option  >USER</option>
+                      <option >ADMIN</option> */}
                     </select>
                 </div>
 
@@ -173,4 +191,4 @@ const ModalCreateUser = (props) => {
     );
   }
 
-  export default ModalCreateUser;
+  export default ModalUpdateUser;

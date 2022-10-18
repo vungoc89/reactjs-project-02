@@ -5,7 +5,7 @@ import { FaBars } from "react-icons/fa";
 
 import {Outlet} from "react-router-dom";
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 const Admin = (props) => {
     const[collapsed, setCollapse] = useState(false);
@@ -27,7 +27,7 @@ const Admin = (props) => {
             </div>
             <ToastContainer
                 position="bottom-center"
-                autoClose={5000}
+                autoClose={3000}
                 hideProgressBar={false}
                 newestOnTop={false}
                 closeOnClick
