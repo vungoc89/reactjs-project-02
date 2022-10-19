@@ -5,8 +5,8 @@ import { FaBars } from "react-icons/fa";
 
 import {Outlet} from "react-router-dom";
 
-import { ToastContainer} from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer} from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 const Admin = (props) => {
     const[collapsed, setCollapse] = useState(false);
     return (
@@ -25,7 +25,7 @@ const Admin = (props) => {
                 </div>
                 
             </div>
-            <ToastContainer
+            {/* <ToastContainer
                 position="bottom-center"
                 autoClose={3000}
                 hideProgressBar={false}
@@ -36,7 +36,7 @@ const Admin = (props) => {
                 draggable
                 pauseOnHover
                 theme="light"
-                />
+                /> */}
         </div>
     );
 }

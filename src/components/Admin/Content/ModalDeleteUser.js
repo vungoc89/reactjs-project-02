@@ -9,7 +9,7 @@ const ModalDeleteUser = (props) => {
 //   check dataDelete
 // console.log(props.dataDelete);
 
-  const handleClose = () => setShow(false)
+  const handleClose = () => setShow(false);
   
   const handleSubmitDeleteUser = async() =>{
     let data = await deleteUser(dataDelete.id); 
@@ -17,12 +17,15 @@ const ModalDeleteUser = (props) => {
         toast.success(data.EM);
         handleClose(); 
         // prevent load use liftup-state
-        await props.fetchListUsers(); 
+        // await props.fetchListUsers(); 
+        props.setCurrentPage(1);
+        await props.fetchListUserWithPaginate(1);
+
       }
       if(data && data.EC !== 0){
         toast.error(data.EM);
       }
-  }
+  };
 
   return (
     <>

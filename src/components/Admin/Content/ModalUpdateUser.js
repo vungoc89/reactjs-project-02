@@ -106,7 +106,9 @@ const ModalUpdateUser = (props) => {
         toast.success(data.EM);
         handleClose(); 
         // prevent load use liftup-state
-        await props.fetchListUsers(); 
+        // await props.fetchListUsers(); 
+        // props.setCurrentPage(1);
+        await props.fetchListUserWithPaginate(props.currentPage);
       }
       if(data && data.EC !== 0){
         toast.error(data.EM);
